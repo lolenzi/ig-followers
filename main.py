@@ -1,6 +1,7 @@
 from selenium import webdriver
 from time import sleep
-from secrets import pw
+ime = (input('Input username: '))
+pw = (input('Input pass: '))
 
 
 class InstaBot:
@@ -9,9 +10,7 @@ class InstaBot:
         self.username = username
         self.driver.get("https://instagram.com")
         sleep(2)
-        self.driver.find_element_by_xpath("//a[contains(text(), 'Log in')]")\
-            .click()
-        sleep(2)
+
         self.driver.find_element_by_xpath("//input[@name=\"username\"]")\
             .send_keys(username)
         self.driver.find_element_by_xpath("//input[@name=\"password\"]")\
@@ -38,10 +37,7 @@ class InstaBot:
 
     def _get_names(self):
         sleep(2)
-        sugs = self.driver.find_element_by_xpath('//h4[contains(text(), Suggestions)]')
-        self.driver.execute_script('arguments[0].scrollIntoView()', sugs)
-        sleep(2)
-        scroll_box = self.driver.find_element_by_xpath("/html/body/div[3]/div/div[2]")
+        scroll_box = self.driver.find_element_by_xpath("/html/body/div[4]/div/div[2]")
         last_ht, ht = 0, 1
         while last_ht != ht:
             last_ht = ht
@@ -53,10 +49,10 @@ class InstaBot:
         links = scroll_box.find_elements_by_tag_name('a')
         names = [name.text for name in links if name.text != '']
         # close button
-        self.driver.find_element_by_xpath("/html/body/div[3]/div/div[1]/div/div[2]/button")\
+        self.driver.find_element_by_xpath("/html/body/div[4]/div/div[1]/div/div[2]/button")\
             .click()
         return names
 
 
-my_bot = InstaBot('_aaronjack', pw)
+my_bot = InstaBot(ime, pw)
 my_bot.get_unfollowers()
